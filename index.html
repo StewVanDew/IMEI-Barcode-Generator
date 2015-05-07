@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <title>JODAK - IMEI bar code maker</title>
+
+    <!-- CSS  -->
+    <link href="css/materialize.css" type="text/css" rel="stylesheet"/>
+    <link href="css/site.css" type="text/css" rel="stylesheet"/>
+
+</head>
+<body class="grey-text">
+<nav class="teal accent-4 no-print" role="navigation">
+    <div class="nav-wrapper container">
+        <span id="logo-container" class="brand-logo">IMEI bar code maker</span>
+    </div>
+</nav>
+
+<div class="section no-pad-bot no-print" id="index-banner">
+    <div class="container">
+        <br><br>
+
+        <div class="row">
+            <div class="col s12 m12 l2">
+                <div class="card teal accent-4">
+                    <div class="card-content white-text center">
+                        <span>Provided by JODAK Web Solutions</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m12 l8">
+                <!--<img class="responsive-img center-block"-->
+                <!--src="http://i.imgur.com/BmhrWIS.jpg">-->
+                <img class="responsive-img center-block"
+                     src="http://ironwillws.azurewebsites.net/wp-content/uploads/Jump-logo-300dpi-8in-medium1.jpg">
+            </div>
+            <div class="col l2 hide-on-med-and-down">
+            </div>
+        </div>
+
+        <div class="row center">
+            <div class="input-field col s10 offset-s1">
+                <input id="input_imei" type="text" length="15" onkeyup="enter(event);">
+                <label for="input_imei">Input IMEI</label>
+            </div>
+            <button type="button" id="submit" class="btn waves-effect teal accent-4" onclick="addData()">Submit</button>
+        </div>
+    </div>
+    <br>
+</div>
+
+
+<div class="container">
+    <div class="section">
+
+        <!--   IMEI Display Section   -->
+        <div class="row" id="div_info">
+        </div>
+
+        <div class="center no-print" id="div_print" style="display: none;">
+            <button class="btn waves-effect teal accent-4" type="button" name="button_print" onclick="window.print()">
+                Print
+            </button>
+        </div>
+
+    </div>
+    <br>
+</div>
+
+<div id="toast-container"></div>
+
+
+<!--  Scripts-->
+<script src="js/jquery-2.1.3.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/jquery-barcode.js"></script>
+
+<script>
+    var idCount = 0;
+    function addData() {
+        var length = $("#input_imei").val().length;
+        var imei = $("#input_imei").val();
+        var htmlData = "<div class='col s10 offset-s1 no-print' style='display: none;' id='" + idCount + "'> <div class='card white no-print'> <div class='card-content grey-text no-print'> " +
+                "<p class='card-title grey-text no-print'><a href='http://www.barcodes4.me/barcode/c39/" + imei + ".png'>IMEI: " + imei + "</a>" +
+                "</p> <p class='grey-text no-print'> Phone Type: Samsung Galaxy S3 32Gb Black " +
+                "</p></div> </div> </div><img id='barcode" + imei + "' class='print' src='http://www.barcodes4.me/barcode/c39/" + imei + ".png' style='width: 2.25in; height: 0.75in;' > ";
+
+        if (length == 15 && !imei.match(/[a-z]/i)) {
+            $("#div_print").fadeIn(2000);
+            $("#div_info").append(htmlData);
+            //$("#barcode" + imei).barcode(imei, "code11");
+            $("div#" + idCount).slideDown('slow');
+            $("#input_imei").val("");
+            idCount++;
+        } else if (imei.match(/[a-z]/i)) {
+            Materialize.toast("You need cannot have letters or space in the IMEI textfield.", 4000);
+            $("#input_imei").val("");
+        } else {
+            Materialize.toast("You need to enter in " + (15 - length) + " characters.", 4000);
+            $("#input_imei").val("");
+        }
+    }
+
+    function enter(event) {
+        if (event.keyCode == 13) {
+            $("#submit").click();
+        }
+    }
+
+    function goodbye(e) {
+        if (idCount > 0) {
+            if (!e) e = window.event;
+            //e.cancelBubble is supported by IE - this will kill the bubbling process.
+            e.cancelBubble = true;
+            e.returnValue = 'You sure you want to leave?'; //This is displayed on the dialog
+
+            //e.stopPropagation works in Firefox.
+            if (e.stopPropagation) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            else {
+                return true;
+            }
+        }
+    }
+    window.onbeforeunload = goodbye;
+</script>
+
+</body>
+</html>
