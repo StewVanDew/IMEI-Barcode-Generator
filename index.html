@@ -89,7 +89,8 @@
         if (length == 15 && !imei.match(/[a-z]/i)) {
             $("#div_print").fadeIn(2000);
             $("#div_info").append(htmlData);
-            //$("#barcode" + imei).barcode(imei, "code11");
+//          TODO: Work on Barcodes
+//          $("#barcode" + imei).barcode(imei, "code11");
             $("div#" + idCount).slideDown('slow');
             $("#input_imei").val("");
             idCount++;
