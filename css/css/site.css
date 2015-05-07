@@ -1,0 +1,15 @@
+@media print {
+    .no-print, .no-print * {
+        display: none !important;
+    }
+    .print, .print * {
+        display: block !important;
+        margin-bottom: 50px !important;
+    }
+}
+
+@media screen {
+    .print, .print * {
+        display: none !important;
+    }
+}
